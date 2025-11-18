@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "description": "API for Notes, Progress, Sessions, and Users"
   },
-  "host": "https://studysync-2sto.onrender.com",
+  "host": "studysync-2sto.onrender.com",
   "basePath": "/",
   "schemes": ["https"],
 
