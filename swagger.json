@@ -8,8 +8,6 @@
   "host": "",
   "basePath": "/",
   "schemes": ["https"],
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
 
   "paths": {
     "/notes": {
