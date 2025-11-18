@@ -1,8 +1,7 @@
-
 const express = require('express');
 const router = express.Router();
-const swaggerRouter = require('./swagger');
 
-router.use('/api-docs', swaggerRouter);
+
+router.use('/api-docs', require('./swagger'));
 
 module.exports = router;
