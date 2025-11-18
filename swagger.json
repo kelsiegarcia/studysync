@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "description": "API for Notes, Progress, Sessions, and Users"
   },
-  "host": "your-domain-here.com",
+  "host": "",
   "basePath": "/",
   "schemes": ["https"],
   "consumes": ["application/json"],
