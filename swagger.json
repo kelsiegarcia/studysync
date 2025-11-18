@@ -1,0 +1,291 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "StudySync",
+    "version": "1.0.0",
+    "description": "API for Notes, Progress, Sessions, and Users"
+  },
+  "host": "your-domain-here.com",
+  "basePath": "/",
+  "schemes": ["https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+
+  "paths": {
+    "/notes": {
+      "get": {
+        "summary": "Get all notes",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "summary": "Create a note",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "NotesId": { "type": "string" },
+                "SessionId": { "type": "string" },
+                "AuthorID": { "type": "string" },
+                "content": { "type": "string" }
+              },
+              "required": ["NotesId", "SessionId", "AuthorID"]
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Created" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+
+    "/notes/{id}": {
+      "get": {
+        "summary": "Get a note by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "404": { "description": "Not found" }
+        }
+      },
+      "put": {
+        "summary": "Update a note by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "NotesId": { "type": "string" },
+                "SessionId": { "type": "string" },
+                "AuthorID": { "type": "string" },
+                "content": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": { "description": "Updated" },
+          "500": { "description": "Server error" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a note by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "204": { "description": "Deleted" },
+          "404": { "description": "Not found" }
+        }
+      }
+    },
+
+    "/progress": {
+      "get": {
+        "summary": "Get all progress entries",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "summary": "Create progress entry",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "AuthorID": { "type": "string" },
+                "Topic": { "type": "string" },
+                "SessionCount": { "type": "string" },
+                "HostCount": { "type": "string" },
+                "Streak": { "type": "string" },
+                "Goals": { "type": "string" }
+              },
+              "required": ["AuthorID", "Topic"]
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Created" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+
+    "/progress/{id}": {
+      "get": {
+        "summary": "Get progress by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "404": { "description": "Not found" }
+        }
+      },
+      "put": {
+        "summary": "Update progress",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "AuthorID": { "type": "string" },
+                "Topic": { "type": "string" },
+                "SessionCount": { "type": "string" },
+                "HostCount": { "type": "string" },
+                "Streak": { "type": "string" },
+                "Goals": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": { "description": "Updated" },
+          "500": { "description": "Server error" }
+        }
+      },
+      "delete": {
+        "summary": "Delete progress entry",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "204": { "description": "Deleted" },
+          "404": { "description": "Not found" }
+        }
+      }
+    },
+
+    "/sessions": {
+      "get": {
+        "summary": "Get all sessions",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "summary": "Create a session",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "SessionId": { "type": "string" },
+                "topic": { "type": "string" },
+                "participants": { "type": "integer" },
+                "starttime": { "type": "string" },
+                "endtime": { "type": "string" }
+              },
+              "required": ["SessionId", "topic"]
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Created" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+
+    "/sessions/{id}": {
+      "get": {
+        "summary": "Get session by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": { "200": { "description": "OK" }, "404": { "description": "Not found" } }
+      },
+      "put": {
+        "summary": "Update session",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "SessionId": { "type": "string" },
+                "topic": { "type": "string" },
+                "participants": { "type": "integer" },
+                "starttime": { "type": "string" },
+                "endtime": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": { "204": { "description": "Updated" }, "500": { "description": "Server error" } }
+      },
+      "delete": {
+        "summary": "Delete session",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": { "204": { "description": "Deleted" }, "404": { "description": "Not found" } }
+      }
+    },
+
+    "/users": {
+      "get": {
+        "summary": "Get all users",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "summary": "Create a user",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "authorID": { "type": "string" },
+                "name": { "type": "string" },
+                "email": { "type": "string" },
+                "subjects": { "type": "array", "items": { "type": "string" } }
+              },
+              "required": ["authorID", "name", "email", "subjects"]
+            }
+          }
+        ],
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+
+    "/users/{id}": {
+      "get": {
+        "summary": "Get a user by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": { "200": { "description": "OK" }, "404": { "description": "Not found" } }
+      },
+      "delete": {
+        "summary": "Delete a user by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": { "204": { "description": "Deleted" }, "404": { "description": "Not found" } }
+      }
+    }
+  }
+}
