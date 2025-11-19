@@ -1,34 +1,32 @@
 const express = require('express');
-const app = express();
-const PORT = process.env.PORT || 8080;
+const cors = require('cors');
 const mongodb = require('./db/connect');
 
+const app = express();
+const PORT = process.env.PORT || 8080;
+
 // Middleware
+app.use(cors());
 app.use(express.json());
 
 // Routes
 app.get('/', (req, res) => {
-    res.send('Hello from Express!');
+  res.send('Hello from Express!');
 });
 
 app.use('/', require('./routes'));
-app.use('/session', require('./routes/session'));
+app.use('/sessions', require('./routes/sessions'));
 app.use('/progress', require('./routes/progress'));
-app.use('/note', require('./routes/note'));
-app.use('/user', require('./routes/user'));
+app.use('/notes', require('./routes/notes'));
+app.use('/users', require('./routes/users'));
 
-
-// Start server
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
-
-
-mongodb.initDb((err, mongodb) => {
+// Connect to DB and start server ONCE
+mongodb.initDb((err) => {
   if (err) {
-    console.log(err);
+    console.error(err);
   } else {
-    app.listen(port);
-    console.log(`Connected to DB and listening on ${port}`);
+    app.listen(PORT, () => {
+      console.log(`Connected to DB and listening on port ${PORT}`);
+    });
   }
 });

@@ -5,8 +5,8 @@ const doc = {
     title: 'StudySync',
     description: 'API documentation for StudySync'
   },
-  host: 'localhost:5000',
-  schemes: ['http']
+  host: 'studysync-2sto.onrender.com',
+  schemes: ['https']
 };
 
 const outputFile = './swagger.json';

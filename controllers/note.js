@@ -30,21 +30,33 @@ const getSingle = async (req, res, next) => {
   });
 };
 
-  // Create
+//Create
 const createNote = async (req, res) => {
+  try {
     const task = {
-      NotesId: req.body.title,
-      SessionId: req.body.title,
-      AuthorID: req.body.title,
-      content: req.body.description || '',
+      NotesId: req.body.NotesId,
+      SessionId: req.body.SessionId,
+      AuthorID: req.body.AuthorID,
+      content: req.body.content || '',
       timestamp: new Date()
     };
-  const response = await mongodb
-    .getDb()
-    .collection('note')
-    .insertOne(task);
-  if (response.acknowledged) {res.status(201).json(response);} 
-  else {res.status(500).json(response.error || 'error while creating the task.');}};
+
+    const response = await mongodb
+      .getDb()
+      .collection('note')
+      .insertOne(task);
+
+    if (response.acknowledged) {
+      res.status(201).json(response);
+    } else {
+      res.status(500).json(response.error || 'Error creating note.');
+    }
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json('Server error');
+  }
+};
 
 
 
