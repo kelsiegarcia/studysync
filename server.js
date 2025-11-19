@@ -1,6 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const session = require('express-session');
+const passport = require('passport');
 const mongodb = require('./db/connect');
+const initPassport = require('./config/passport');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -8,6 +12,17 @@ const PORT = process.env.PORT || 8080;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'superdupersecret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false }
+  })
+);
+initPassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 app.get('/', (req, res) => {
@@ -15,6 +30,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/', require('./routes'));
+app.use('/auth', require('./routes/auth'));
 app.use('/sessions', require('./routes/sessions'));
 app.use('/progress', require('./routes/progress'));
 app.use('/notes', require('./routes/notes'));

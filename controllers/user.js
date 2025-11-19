@@ -71,4 +71,31 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { getAllUsers, getUserById, createUser, deleteUser };
+
+// Find or create a Google user (used by Passport)
+const findOrCreateGoogleUser = async (profile) => {
+  try {
+    const usersColl = mongodb.getDb().collection('users');
+    const existing = await usersColl.findOne({ provider: 'google', providerId: profile.id });
+    if (existing) return existing;
+
+    const newUser = {
+      provider: 'google',
+      providerId: profile.id,
+      authorID: '',
+      name: profile.displayName || `${profile.name && profile.name.givenName ? profile.name.givenName : ''} ${profile.name && profile.name.familyName ? profile.name.familyName : ''}`.trim(),
+      email: (profile.emails && profile.emails[0] && profile.emails[0].value) || '',
+      subjects: []
+    };
+
+    const result = await usersColl.insertOne(newUser);
+    const authorId = result.insertedId.toString();
+    await usersColl.updateOne({ _id: result.insertedId }, { $set: { authorID: authorId } });
+    const created = await usersColl.findOne({ _id: result.insertedId });
+    return created;
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports = { getAllUsers, getUserById, createUser, deleteUser, findOrCreateGoogleUser };

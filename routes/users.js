@@ -9,7 +9,8 @@ router.get('/', usersController.getAllUsers);
 router.get('/:id', usersController.getUserById);
 
 // POST create user
-router.post('/', usersController.createUser);
+// DISABLED handled by passport 
+//router.post('/', usersController.createUser);
 
 // DELETE user
 router.delete('/:id', usersController.deleteUser);
