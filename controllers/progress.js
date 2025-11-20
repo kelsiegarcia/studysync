@@ -33,7 +33,7 @@ const getSingle = async (req, res, next) => {
 const createProgress = async (req, res) => {
     const task = {
         id: req.body.title,
-        AuthorID: new ObjectId(req.user.authorID),
+        AuthorID: req.user._id,
         Topic: req.body.title,
         SessionCount: req.body.title,
         HostCount: req.body.title,

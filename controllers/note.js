@@ -36,7 +36,7 @@ const createNote = async (req, res) => {
     const task = {
       NotesId: req.body.NotesId,
       SessionId: req.body.SessionId,
-      AuthorID: new ObjectId(req.user.authorID),
+      AuthorID: req.user._id,
       content: req.body.content || '',
       timestamp: new Date()
     };
