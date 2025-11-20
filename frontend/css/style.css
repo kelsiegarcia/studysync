@@ -1,0 +1,66 @@
+/* styles.css
+   Blank skeleton using your theme vars.
+   Fill sections below with rules as you build.
+*/
+
+:root {
+  --color-bg:#553555;
+  --color-text: #070707;
+  --color-card-bg:#40798C ;
+  --color-button-bg:#1B998B;
+  --color-button-hover: #A799B7;
+  --color-button-text: #070707;
+  --font-heading: 'Ariel', sans-serif;
+  --font-body: 'Ariel', sans-serif;
+  --font-body-size: 16px;
+  --border-radius: 8px;
+  --shadow-default:rgba(27, 27, 27, 0.1);
+}
+
+/* -------------------- Base / Reset -------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-body-size);
+  background: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* -------------------- Typography -------------------- */
+/* add headings, paragraphs, links here */
+
+/* h1, h2, h3 { } */
+/* p { } */
+/* a { } */
+
+/* -------------------- Layout Containers -------------------- */
+/* .container { } */
+
+/* -------------------- Navigation -------------------- */
+/* header nav { } */
+/* header nav a { } */
+
+/* -------------------- Buttons -------------------- */
+/* button { } */
+
+/* -------------------- Cards -------------------- */
+/* .card { } */
+
+/* -------------------- Modals -------------------- */
+/* .modal { } */
+/* .modal-content { } */
+
+/* -------------------- Responsive / Utilities -------------------- */
+/* .visually-hidden { } */
+/* @media (max-width: 900px) { } */
+
