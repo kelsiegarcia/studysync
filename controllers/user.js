@@ -35,28 +35,6 @@ const getUserById = async (req, res) => {
 };
 
 
-const createUser = async (req, res) => {
-  try {
-    const { authorID, name, email, subjects } = req.body;
-    if (!authorID || !name || !email || !subjects ) {
-      return res.status(400).json({ error: 'Missing required fields' });
-    }
-    const newUser = { authorID, name, email, subjects };
-    const result = await mongodb
-    .getDb()
-    .collection('users')
-    .insertOne(newUser);
-    const user = await mongodb
-    .getDb()
-    .collection('users')
-    .findOne({ _id: result.insertedId });
-    res.status(201).json(user);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to create user', details: err });
-  }
-};
-
-
 const deleteUser = async (req, res) => {
   try {
     const userId = new ObjectId(req.params.id);
@@ -98,4 +76,4 @@ const findOrCreateGoogleUser = async (profile) => {
   }
 };
 
-module.exports = { getAllUsers, getUserById, createUser, deleteUser, findOrCreateGoogleUser };
+module.exports = { getAllUsers, getUserById, deleteUser, findOrCreateGoogleUser };

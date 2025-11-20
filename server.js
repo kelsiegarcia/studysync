@@ -5,6 +5,7 @@ const session = require('express-session');
 const passport = require('passport');
 const mongodb = require('./db/connect');
 const initPassport = require('./config/passport');
+const ensureAuth = require('./middleware/ensureAuth');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -31,10 +32,10 @@ app.get('/', (req, res) => {
 
 app.use('/', require('./routes'));
 app.use('/auth', require('./routes/auth'));
-app.use('/sessions', require('./routes/sessions'));
-app.use('/progress', require('./routes/progress'));
-app.use('/notes', require('./routes/notes'));
-app.use('/users', require('./routes/users'));
+app.use('/sessions', ensureAuth, require('./routes/sessions'));
+app.use('/progress', ensureAuth, require('./routes/progress'));
+app.use('/notes', ensureAuth, require('./routes/notes'));
+app.use('/users', ensureAuth, require('./routes/users'));
 
 // Connect to DB and start server ONCE
 mongodb.initDb((err) => {

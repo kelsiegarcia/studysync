@@ -8,10 +8,6 @@ router.get('/', usersController.getAllUsers);
 // GET single user
 router.get('/:id', usersController.getUserById);
 
-// POST create user
-// DISABLED handled by passport 
-//router.post('/', usersController.createUser);
-
 // DELETE user
 router.delete('/:id', usersController.deleteUser);
 
