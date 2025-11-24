@@ -1,3 +1,8 @@
-const mongoose = require("mongoose");
-const noteSchema = new mongoose.Schema({}, { strict: false });
-module.exports = mongoose.model("Note", noteSchema);
+const noteSchema = {
+    authorID: 'string',
+    sessionID: 'string',
+    content: 'string',
+    createdAt: 'date'
+};
+
+module.exports = noteSchema;

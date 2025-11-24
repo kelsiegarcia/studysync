@@ -1,4 +1,9 @@
-const mongoose = require("mongoose");
-const sessionSchema = new mongoose.Schema({}, { strict: false });
+const sessionSchema = {
+    authorID: 'string',
+    title: 'string',
+    description: 'string',
+    date: 'date',
+    participants: 'array'
+};
 
-module.exports = mongoose.model("Session", sessionSchema);
+module.exports = sessionSchema;

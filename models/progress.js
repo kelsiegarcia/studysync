@@ -1,4 +1,9 @@
-const mongoose = require("mongoose");
-const progressSchema = new mongoose.Schema({}, { strict: false });
+const progressSchema = {
+    userID: 'string',
+    sessionID: 'string',
+    notesCompleted: 'number',
+    progressPercent: 'number',
+    updatedAt: 'date'
+};
 
-module.exports = mongoose.model("Progress", progressSchema);
+module.exports = progressSchema;
