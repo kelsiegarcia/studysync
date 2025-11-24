@@ -24,28 +24,26 @@ beforeAll(async () => {
 });
 
 
-
-
 describe('Users Routes Integration Tests', () => {
 
   test('GET /users should return a list of users', async () => {
     const res = await request(app).get('/users');
     expect(res.status).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true); // assuming getAllUsers returns array
+    expect(Array.isArray(res.body)).toBe(true); 
     if (res.body.length > 0) testUserId = res.body[0]._id;
   });
 
   test('GET /users/:id should return a single user', async () => {
-    if (!testUserId) return; // skip if no users in DB
+    if (!testUserId) return; 
     const res = await request(app).get(`/users/${testUserId}`);
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty('_id', testUserId);
   });
 
   test('DELETE /users/:id should delete a user', async () => {
-    if (!testUserId) return; // skip if no users in DB
+    if (!testUserId) return; 
     const res = await request(app).delete(`/users/${testUserId}`);
-    expect(res.status).toBe(200); // or 204 depending on your controller
+    expect(res.status).toBe(200); 
   });
 
 });
