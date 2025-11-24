@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('server.js'); 
+const app = require('../server.js'); 
 const mongoose = require('mongoose');
 
 describe('Notes Routes', () => {
