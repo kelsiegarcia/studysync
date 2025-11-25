@@ -22,15 +22,24 @@ const getAllUsers = async (req, res) => {
 
 const getUserById = async (req, res) => {
   try {
-    const userId = new ObjectId(req.params.id);
-    const user = await mongodb
-    .getDb()
-    .collection('users')
-    .findOne({ _id: userId });
-    if (!user) return res.status(404).json({ error: 'User not found' });
-    res.status(200).json(user);
+    const id = req.params.id;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid ID format" });
+    }
+
+    const result = await mongodb
+      .getDb()
+      .collection("users")
+      .findOne({ _id: new ObjectId(id) });
+
+    if (!result) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.status(200).json(result);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to get user', details: err });
+    res.status(500).json({ error: "Server error retrieving user" });
   }
 };
 
