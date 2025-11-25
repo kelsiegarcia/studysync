@@ -1,3 +1,29 @@
+<div align="center">
+
+# 📘 StudySync API  
+### A Node.js + Express + MongoDB backend for coordinating study sessions, notes, and progress tracking.
+
+![Node.js](https://img.shields.io/badge/Node.js-18.x-green?style=for-the-badge&logo=node.js)
+![Express](https://img.shields.io/badge/Express.js-Backend-lightgrey?style=for-the-badge&logo=express)
+![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green?style=for-the-badge&logo=mongodb)
+![Passport.js](https://img.shields.io/badge/Passport.js-OAuth2-blue?style=for-the-badge&logo=auth0)
+![Swagger](https://img.shields.io/badge/Swagger-API_Docs-brightgreen?style=for-the-badge&logo=swagger)
+![Render](https://img.shields.io/badge/Render-Deployed-blue?style=for-the-badge&logo=render)
+![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
+![Jest](https://img.shields.io/badge/Jest-Unit_Tests-red?style=for-the-badge&logo=jest)
+
+</div>
+
+---
+
+A professionally built backend API for managing collaborative study sessions, user notes, and progress tracking.  
+Includes Google OAuth authentication, MongoDB Atlas storage, and full Swagger API documentation.
+
+---
+
+
+
+
 # StudySync API
 
 StudySync is a backend REST API designed to help students coordinate study sessions, share notes, and track their progress.  
@@ -12,7 +38,8 @@ The StudySync API provides:
 - 🔐 **Secure Google Authentication**  
 - 📚 **CRUD operations** for Sessions, Notes, Progress, and Users  
 - 🗂️ **MongoDB Atlas database** with multiple collections  
-- 📄 **Complete Swagger documentation**  
+- 📄 **Complete Swagger documentation**
+- 🧪 **Automated testing with Jest**  
 - 🚀 **Live deployment on Render**
 
 This project was developed for **CSE 341 – Web Backend Development**, with code quality and structure suitable for professional environments.
@@ -24,7 +51,8 @@ This project was developed for **CSE 341 – Web Backend Development**, with cod
 - Node.js + Express  
 - MongoDB Atlas  
 - Passport.js (Google OAuth 2.0)  
-- Swagger (OpenAPI 2.0)  
+- Swagger (OpenAPI 2.0)
+- Jest (Automated testing)    
 - Render for deployment  
 
 ---
@@ -39,6 +67,20 @@ https://studysync-2sto.onrender.com/
 https://studysync-2sto.onrender.com/api-docs
 
 Use Swagger to explore all endpoints, test requests, and view schemas.
+
+---
+
+## 🧪 Testing
+
+This project uses **Jest** for unit and functional testing.
+
+### What is tested?
+- Controller logic  
+- Validation behavior  
+- Error handling  
+- CRUD functionality for Sessions, Notes, Progress, and Users  
+
+Jest ensures that the API behaves predictably and helps prevent regressions during development.
 
 ---
 
