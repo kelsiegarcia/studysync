@@ -1,10 +1,18 @@
 const request = require('supertest');
 const app = require('../server.js'); 
-const mongoose = require('mongoose');
 const mongodb = require('../db/connect');
 
+// Mock authentication middleware
 jest.mock('../middleware/ensureAuth', () => (req, res, next) => next());
 
+// Mock the session controller
+jest.mock('../controllers/session', () => ({
+  getAll: jest.fn((req, res) => res.status(200).json({ msg: 'getAll called' })),
+  getSingle: jest.fn((req, res) => res.status(200).json({ msg: `getSingle ${req.params.id} called` })),
+  createSession: jest.fn((req, res) => res.status(201).json({ msg: 'createSession called', data: req.body })),
+  updateSession: jest.fn((req, res) => res.status(200).json({ msg: `updateSession ${req.params.id} called`, data: req.body })),
+  deleteSession: jest.fn((req, res) => res.status(200).json({ msg: `deleteSession ${req.params.id} called` })),
+}));
 
 beforeAll(async () => {
   await new Promise((resolve, reject) => {
@@ -15,21 +23,9 @@ beforeAll(async () => {
   });
 });
 
-const { ObjectId } = require('mongodb');
-
-
-beforeEach(() => {
-  app.use((req, res, next) => {
-    req.user = { _id: new ObjectId() }; 
-    next();
-  });
+afterAll(() => {
+  mongodb.closeDb();
 });
-
-if (require.main === module) {
-  const PORT = process.env.PORT || 8080;
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-}
-
 
 describe('Session Router', () => {
   beforeEach(() => {

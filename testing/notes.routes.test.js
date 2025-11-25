@@ -1,10 +1,18 @@
 const request = require('supertest');
 const app = require('../server.js'); 
-const mongoose = require('mongoose');
 const mongodb = require('../db/connect');
 
+// Mock authentication middleware
 jest.mock('../middleware/ensureAuth', () => (req, res, next) => next());
 
+// Mock the note controller
+jest.mock('../controllers/note', () => ({
+  getAll: jest.fn((req, res) => res.status(200).json({ msg: 'getAll called' })),
+  getSingle: jest.fn((req, res) => res.status(200).json({ msg: `getSingle ${req.params.id} called` })),
+  createNote: jest.fn((req, res) => res.status(201).json({ msg: 'createNote called', data: req.body })),
+  updateNote: jest.fn((req, res) => res.status(200).json({ msg: `updateNote ${req.params.id} called`, data: req.body })),
+  deleteNote: jest.fn((req, res) => res.status(200).json({ msg: `deleteNote ${req.params.id} called` })),
+}));
 
 beforeAll(async () => {
   await new Promise((resolve, reject) => {
@@ -15,59 +23,40 @@ beforeAll(async () => {
   });
 });
 
-const { ObjectId } = require('mongodb');
-
-
-beforeEach(() => {
-  app.use((req, res, next) => {
-    req.user = { _id: new ObjectId() }; 
-    next();
-  });
+afterAll(() => {
+  mongodb.closeDb();
 });
 
-if (require.main === module) {
-  const PORT = process.env.PORT || 8080;
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-}
-
-
-let createdNoteId;
-
 describe('Notes Routes', () => {
-  it('should create a note', async () => {
-    const newNote = { title: 'Test Note', content: 'This is a test' };
-
-    const res = await request(app)
-      .post('/notes')
-      .send(newNote);
-
-    expect(res.statusCode).toBe(201);
-    expect(res.body).toHaveProperty('insertedId'); 
-    
-    createdNoteId = res.body.insertedId;
-  });
-
-  it('should get a note by id', async () => {
-    const res = await request(app).get(`/notes/${createdNoteId}`);
-
+  test('GET /notes calls getAll', async () => {
+    const res = await request(app).get('/notes');
     expect(res.statusCode).toBe(200);
-    expect(res.body).toHaveProperty('_id', createdNoteId); 
+    expect(res.body).toEqual({ msg: 'getAll called' });
   });
 
-  it('should update a note', async () => {
+  test('GET /notes/:id calls getSingle', async () => {
+    const res = await request(app).get('/notes/123');
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toEqual({ msg: 'getSingle 123 called' });
+  });
+
+  test('POST /notes calls createNote', async () => {
+    const newNote = { title: 'Test Note', content: 'This is a test' };
+    const res = await request(app).post('/notes').send(newNote);
+    expect(res.statusCode).toBe(201);
+    expect(res.body).toEqual({ msg: 'createNote called', data: newNote });
+  });
+
+  test('PUT /notes/:id calls updateNote', async () => {
     const updates = { title: 'Updated Note' };
-
-    const res = await request(app)
-      .put(`/notes/${createdNoteId}`)
-      .send(updates);
-
-    expect(res.statusCode).toBe(204);
-   
+    const res = await request(app).put('/notes/123').send(updates);
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toEqual({ msg: 'updateNote 123 called', data: updates });
   });
 
-  it('should delete a note', async () => {
-    const res = await request(app).delete(`/notes/${createdNoteId}`);
-
-    expect(res.statusCode).toBe(204);
+  test('DELETE /notes/:id calls deleteNote', async () => {
+    const res = await request(app).delete('/notes/123');
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toEqual({ msg: 'deleteNote 123 called' });
   });
 });

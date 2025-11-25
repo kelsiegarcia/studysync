@@ -4,6 +4,7 @@ dotenv.config();
 const { MongoClient, ObjectId } = require('mongodb');
 
 let _db;
+let _client;
 
 const initDb = (callback) => {
   if (_db) {
@@ -12,6 +13,7 @@ const initDb = (callback) => {
   }
   MongoClient.connect(process.env.MONGODB_URI)
     .then((client) => {
+      _client = client;
       _db = client.db();
       callback(null, _db);
     })
@@ -27,6 +29,17 @@ const getDb = () => {
   return _db;
 };
 
+const closeDb = () => {
+  if (_client) {
+    _client.close();
+    _db = null;
+    _client = null;
+  }
+};
 
-
-module.exports = { initDb,getDb, ObjectId };
+module.exports = {
+  initDb,
+  getDb,
+  closeDb,
+  ObjectId
+};

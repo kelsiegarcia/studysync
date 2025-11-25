@@ -38,14 +38,16 @@ app.use('/notes', ensureAuth, require('./routes/notes'));
 app.use('/users', ensureAuth, require('./routes/users'));
 
 // Connect to DB and start server ONCE
-mongodb.initDb((err) => {
-  if (err) {
-    console.error(err);
-  } else {
-    app.listen(PORT, () => {
-      console.log(`Connected to DB and listening on port ${PORT}`);
-    });
-  }
-});
+if (require.main === module) {
+  mongodb.initDb((err) => {
+    if (err) {
+      console.error(err);
+    } else {
+      app.listen(PORT, () => {
+        console.log(`Connected to DB and listening on port ${PORT}`);
+      });
+    }
+  });
+}
 
 module.exports = app;

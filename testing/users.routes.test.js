@@ -1,17 +1,15 @@
 const request = require('supertest');
 const app = require('../server.js'); 
 const mongodb = require('../db/connect');
-const usersController = require('../controllers/user');
-const { ObjectId } = require('mongodb');
 
 // Mock authentication middleware
 jest.mock('../middleware/ensureAuth', () => (req, res, next) => next());
 
 // Mock the usersController
 jest.mock('../controllers/user', () => ({
-  getAllUsers: jest.fn((req, res) => res.status(200).send('getAllUsers called')),
-  getUserById: jest.fn((req, res) => res.status(200).send(`getUserById called with id ${req.params.id}`)),
-  deleteUser: jest.fn((req, res) => res.status(200).send(`deleteUser called with id ${req.params.id}`)),
+  getAllUsers: jest.fn((req, res) => res.status(200).json({ msg: 'getAllUsers called' })),
+  getUserById: jest.fn((req, res) => res.status(200).json({ msg: `getUserById called with id ${req.params.id}` })),
+  deleteUser: jest.fn((req, res) => res.status(200).json({ msg: `deleteUser called with id ${req.params.id}` })),
 }));
 
 beforeAll(async () => {
@@ -23,27 +21,28 @@ beforeAll(async () => {
   });
 });
 
+afterAll(() => {
+  mongodb.closeDb();
+});
 
 describe('Users Routes Integration Tests', () => {
 
   test('GET /users should return a list of users', async () => {
     const res = await request(app).get('/users');
     expect(res.status).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true); 
-    if (res.body.length > 0) testUserId = res.body[0]._id;
+    expect(res.body).toEqual({ msg: 'getAllUsers called' });
   });
 
   test('GET /users/:id should return a single user', async () => {
-    if (!testUserId) return; 
-    const res = await request(app).get(`/users/${testUserId}`);
+    const res = await request(app).get('/users/123');
     expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty('_id', testUserId);
+    expect(res.body).toEqual({ msg: 'getUserById called with id 123' });
   });
 
   test('DELETE /users/:id should delete a user', async () => {
-    if (!testUserId) return; 
-    const res = await request(app).delete(`/users/${testUserId}`);
+    const res = await request(app).delete('/users/123');
     expect(res.status).toBe(200); 
+    expect(res.body).toEqual({ msg: 'deleteUser called with id 123' });
   });
 
 });
