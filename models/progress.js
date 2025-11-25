@@ -1,9 +1,11 @@
 const progressSchema = {
-    userID: 'string',
-    sessionID: 'string',
-    notesCompleted: 'number',
-    progressPercent: 'number',
-    updatedAt: 'date'
+    id: 'string',
+    authorID: 'string',
+    topic: 'string',
+    sessionCount: 'string',
+    hostCount: 'string',
+    streak: 'string',
+    goals: []
 };
 
 module.exports = progressSchema;

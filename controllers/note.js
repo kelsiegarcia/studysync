@@ -62,33 +62,65 @@ const createNote = async (req, res) => {
 
 // Update
 const updateNote = async (req, res) => {
-  const userId = new ObjectId(req.params.id);
-    const task = {
-      NotesId: req.body.title,
-      SessionId: req.body.title,
-      AuthorID: req.body.title,
-      content: req.body.description || '',
-      timestamp: new Date()
-    };
-  const response = await mongodb
-    .getDb()
-    .collection('note')
-    .replaceOne({ _id: userId }, task);
-  console.log(response);
-  if (response.modifiedCount > 0) {res.status(204).send();} 
-  else {res.status(500).json(response.error || 'error while Updating the task.');}};
+  try {
+    const id = req.params.id;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid ID format" });
+    }
+
+    const { title, content } = req.body;
+
+    if (!title || !content) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const noteId = new ObjectId(id);
+
+    const result = await mongodb
+      .getDb()
+      .collection("note")
+      .updateOne(
+        { _id: noteId },
+        { $set: { title, content } }
+      );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ error: "Note not found" });
+    }
+
+    return res.status(200).json({ message: "Note updated successfully" });
+  } catch (err) {
+    return res.status(500).json({ error: "Server error updating note" });
+  }
+};
 
 
   // Delete
 const deleteNote = async (req, res) => {
-  const userId = new ObjectId(req.params.id);
-  const response = await mongodb
-    .getDb()
-    .collection('note')
-    .deleteOne({ _id: userId });
-  console.log(response);
-  if (response.deletedCount > 0) {res.status(204).send();} 
-  else {res.status(500).json(response.error || 'error while deleating the task.');}};
+  try {
+    const id = req.params.id;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid ID format" });
+    }
+
+    const noteId = new ObjectId(id);
+
+    const result = await mongodb
+      .getDb()
+      .collection("note")
+      .deleteOne({ _id: noteId });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ error: "Note not found" });
+    }
+
+    return res.status(204).send();
+  } catch (err) {
+    return res.status(500).json({ error: "Server error deleting note" });
+  }
+};
 
 
 

@@ -31,55 +31,99 @@ const getSingle = async (req, res, next) => {
 
   // Create
 const createProgress = async (req, res) => {
+  try {
     const task = {
-        id: req.body.title,
-        AuthorID: req.user._id,
-        Topic: req.body.title,
-        SessionCount: req.body.title,
-        HostCount: req.body.title,
-        Streak: req.body.title,
-        Goals : req.body.title
+      id: req.body.title,
+      AuthorID: req.user._id,
+      Topic: req.body.title,
+      SessionCount: req.body.title,
+      HostCount: req.body.title,
+      Streak: req.body.title,
+      Goals: req.body.title
     };
-  const response = await mongodb
-    .getDb()
-    .collection('progress')
-    .insertOne(task);
-  if (response.acknowledged) {res.status(201).json(response);} 
-  else {res.status(500).json(response.error || 'error while creating the task.');}};
 
+    const response = await mongodb
+      .getDb()
+      .collection("progress")
+      .insertOne(task);
+
+    if (response.acknowledged) {
+      res.status(201).json(response);
+    } else {
+      res.status(500).json("error while creating the task.");
+    }
+  } catch (err) {
+    res.status(500).json({ error: "Server error creating progress" });
+  }
+};
 
 
 // Update
 const updateProgress = async (req, res) => {
-  const userId = new ObjectId(req.params.id);
-    const task = {
-        id: req.body.title,
-        AuthorID: req.body.title,
-        Topic: req.body.title,
-        SessionCount: req.body.title,
-        HostCount: req.body.title,
-        Streak: req.body.title,
-        Goals : req.body.title
+  try {
+    const progressId = req.params.id;
+
+    if (!ObjectId.isValid(progressId)) {
+      return res.status(400).json({ error: "Invalid ID format" });
+    }
+
+    const { title } = req.body;
+
+    if (!title) {
+      return res.status(400).json({ error: "Missing required field 'title'" });
+    }
+
+    const updateFields = {
+      id: title,
+      Topic: title,
+      SessionCount: title,
+      HostCount: title,
+      Streak: title,
+      Goals: title
     };
-  const response = await mongodb
-    .getDb()
-    .collection('progress')
-    .replaceOne({ _id: userId }, task);
-  console.log(response);
-  if (response.modifiedCount > 0) {res.status(204).send();} 
-  else {res.status(500).json(response.error || 'error while Updating the task.');}};
+
+    const result = await mongodb
+      .getDb()
+      .collection("progress")
+      .updateOne(
+        { _id: new ObjectId(progressId) },
+        { $set: updateFields }
+      );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ error: "Progress record not found" });
+    }
+
+    return res.status(200).json({ message: "Progress updated" });
+  } catch (err) {
+    return res.status(500).json({ error: "Server error updating progress" });
+  }
+};
 
 
   // Delete
 const deleteProgress = async (req, res) => {
-  const userId = new ObjectId(req.params.id);
-  const response = await mongodb
-    .getDb()
-    .collection('progress')
-    .deleteOne({ _id: userId });
-  console.log(response);
-  if (response.deletedCount > 0) {res.status(204).send();} 
-  else {res.status(500).json(response.error || 'error while deleating the task.');}};
+  try {
+    const id = req.params.id;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid ID format" });
+    }
+
+    const result = await mongodb
+      .getDb()
+      .collection("progress")
+      .deleteOne({ _id: new ObjectId(id) });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ error: "Progress not found" });
+    }
+
+    return res.status(204).send();
+  } catch (err) {
+    return res.status(500).json({ error: "Server error deleting progress" });
+  }
+};
 
 
 

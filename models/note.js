@@ -1,8 +1,12 @@
 const noteSchema = {
-    authorID: 'string',
-    sessionID: 'string',
+    notesId: 'string',
+    sessionId: 'string',
+    authorId: 'string',
     content: 'string',
-    createdAt: 'date'
+    timestamp: 'date'
 };
 
 module.exports = noteSchema;
+
+
+//Notes (notesId,sessionId,authorId,content,timestamp)
