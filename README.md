@@ -1,33 +1,23 @@
 <div align="center">
 
 # 📘 StudySync API  
-### A Node.js + Express + MongoDB backend for coordinating study sessions, notes, and progress tracking.
+### A Node.js + Express + MongoDB backend for coordinating study sessions, notes, progress tracking, and automated testing.
 
 ![Node.js](https://img.shields.io/badge/Node.js-18.x-green?style=for-the-badge&logo=node.js)
 ![Express](https://img.shields.io/badge/Express.js-Backend-lightgrey?style=for-the-badge&logo=express)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green?style=for-the-badge&logo=mongodb)
 ![Passport.js](https://img.shields.io/badge/Passport.js-OAuth2-blue?style=for-the-badge&logo=auth0)
 ![Swagger](https://img.shields.io/badge/Swagger-API_Docs-brightgreen?style=for-the-badge&logo=swagger)
+![Jest](https://img.shields.io/badge/Jest-Automated_Tests-red?style=for-the-badge&logo=jest)
 ![Render](https://img.shields.io/badge/Render-Deployed-blue?style=for-the-badge&logo=render)
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![Jest](https://img.shields.io/badge/Jest-Unit_Tests-red?style=for-the-badge&logo=jest)
 
 </div>
 
 ---
 
 A professionally built backend API for managing collaborative study sessions, user notes, and progress tracking.  
-Includes Google OAuth authentication, MongoDB Atlas storage, and full Swagger API documentation.
-
----
-
-
-
-
-# StudySync API
-
-StudySync is a backend REST API designed to help students coordinate study sessions, share notes, and track their progress.  
-This project was built using **Node.js**, **Express**, **MongoDB**, and **Google OAuth 2.0** for secure authentication.
+Includes Google OAuth authentication, MongoDB Atlas storage, **Jest automated testing**, and full Swagger API documentation.
 
 ---
 
