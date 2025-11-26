@@ -62,16 +62,17 @@ Use Swagger to explore all endpoints, test requests, and view schemas.
 
 ## 🧪 Testing
 
-This project uses **Jest** for unit and functional testing.
+This project uses **Jest** to perform automated route testing.
 
-### What is tested?
-- Controller logic  
-- Validation behavior  
-- Error handling  
-- CRUD functionality for Sessions, Notes, Progress, and Users  
+The test suite verifies that:
 
-Jest ensures that the API behaves predictably and helps prevent regressions during development.
+- All major API routes (Sessions, Notes, Progress, Users) respond correctly  
+- Protected routes enforce authentication  
+- Endpoints return appropriate status codes  
+- Swagger route loads successfully  
+- Server boots and responds on expected paths  
 
+Jest provides confidence that routes are reachable and responding as intended during development and deployment.
 ---
 
 ## 🗄️ Collections & Data Models
