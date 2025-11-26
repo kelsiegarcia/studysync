@@ -136,7 +136,7 @@ const deleteProgress = async (req, res) => {
       return res.status(404).json({ error: "Progress not found" });
     }
 
-    return res.status(204).send();
+    return res.status(200).json({ message: "Progress deleted successfully" });
   } catch (err) {
     return res.status(500).json({ error: "Server error deleting progress" });
   }

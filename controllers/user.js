@@ -52,7 +52,8 @@ const deleteUser = async (req, res) => {
     .collection('users')
     .deleteOne({ _id: userId });
     if (result.deletedCount === 0) return res.status(404).json({ error: 'User not found' });
-    res.status(204).send();
+    return res.status(200).json({ message: "User deleted successfully" });
+
   } catch (err) {
     res.status(500).json({ error: 'Failed to delete user', details: err });
   }
