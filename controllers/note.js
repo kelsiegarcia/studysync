@@ -51,9 +51,9 @@ const getSingle = async (req, res, next) => {
 const createNote = async (req, res) => {
   try {
     const task = {
-      NotesId: req.body.NotesId,
-      SessionId: req.body.SessionId,
-      AuthorID: req.user._id,
+      notesId: req.body.notesId,
+      sessionId: req.body.sessionId,
+      authorId: req.user._id,
       content: req.body.content || '',
       timestamp: new Date()
     };
@@ -86,9 +86,9 @@ const updateNote = async (req, res) => {
       return res.status(400).json({ error: "Invalid ID format" });
     }
 
-    const { title, content } = req.body;
+    const { sessionId, authorId, content, timestamp } = req.body;
 
-    if (!title || !content) {
+    if (!sessionId || !authorId || !content || !timestamp) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
@@ -99,7 +99,7 @@ const updateNote = async (req, res) => {
       .collection("note")
       .updateOne(
         { _id: noteId },
-        { $set: { title, content } }
+        { $set: { sessionId, authorId, content, timestamp } }
       );
 
     if (result.matchedCount === 0) {

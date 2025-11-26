@@ -86,7 +86,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "SessionId": {
+                "sessionId": {
                   "type": "string",
                   "example": "session001"
                 },
@@ -104,7 +104,7 @@
                 }
               },
               "required": [
-                "SessionId",
+                "sessionId",
                 "topic",
                 "time",
                 "participants"

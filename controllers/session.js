@@ -44,23 +44,30 @@ const getSingle = async (req, res, next) => {
   // Create
 const createSession = async (req, res) => {
   try {
-    const { title, description, completed } = req.body;
+    const { sessionId, topic, time, participants } = req.body;
 
-    if (!title || !description) {
-      return res.status(400).json({ error: "Missing required fields" });
+    // Validate required fields
+    if (!sessionId || !topic || !time || !participants) {
+      return res.status(400).json({ error: "Missing required session fields" });
     }
+
+    const newSession = {
+      sessionId,
+      topic,
+      time,
+      participants,
+    };
 
     const result = await mongodb
       .getDb()
       .collection("session")
-      .insertOne({ title, description, completed: completed || false });
+      .insertOne(newSession);
 
     return res.status(201).json(result);
   } catch (err) {
     return res.status(500).json({ error: "Server error creating session" });
   }
 };
-
 
 // Update
 const updateSession = async (req, res) => {
@@ -71,18 +78,26 @@ const updateSession = async (req, res) => {
       return res.status(400).json({ error: "Invalid ID format" });
     }
 
-    const { title, description, completed } = req.body;
+    const { sessionId, topic, time, participants } = req.body;
 
-    if (!title || !description) {
-      return res.status(400).json({ error: "Missing required fields" });
+    // Require at least one field to update
+    if (!sessionId && !topic && !time && !participants) {
+      return res.status(400).json({ error: "No fields provided to update" });
     }
+
+    const updatedFields = {};
+
+    if (sessionId) updatedFields.sessionId = sessionId;
+    if (topic) updatedFields.topic = topic;
+    if (time) updatedFields.time = time;
+    if (participants) updatedFields.participants = participants;
 
     const result = await mongodb
       .getDb()
       .collection("session")
       .updateOne(
         { _id: new ObjectId(id) },
-        { $set: { title, description, completed } }
+        { $set: updatedFields }
       );
 
     if (result.matchedCount === 0) {
