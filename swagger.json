@@ -474,29 +474,49 @@
           }
         }
       },
-      "put": {
-        "description": "Update a note by ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "Content": {
-                  "type": "string",
-                  "example": "Updated note text"
-                }
+     "put": {
+      "description": "Update a note by ID",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "required": [
+              "sessionId",
+              "authorId",
+              "content",
+              "timestamp"
+            ],
+            "properties": {
+              "sessionId": {
+                "type": "string",
+                "example": "12345"
+              },
+              "authorId": {
+                "type": "string",
+                "example": "abcde"
+              },
+              "content": {
+                "type": "string",
+                "example": "Updated note text"
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2025-12-03T22:44:05.000Z"
               }
             }
           }
-        ],
+        }
+      ],
         "responses": {
           "200": {
             "description": "Updated"
